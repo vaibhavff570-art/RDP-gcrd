@@ -4,44 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JNL Glory</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="{{ url_for('static', filename='tokens.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --bg: #0d1117;
-  --surface: #151b28;
-  --raised: #1e2535;
-  --border: rgba(136, 149, 187, 0.1);
-  --border-subtle: rgba(136, 149, 187, 0.06);
-  --text: #e1e3ea;
-  --secondary: #8b92a8;
-  --muted: #4c526a;
-  --accent: #d4a24e;
-  --green: #58c98d;
-  --blue: #6ea8f7;
-  --yellow: #e5c062;
-  --red: #e06575;
-  --heading: 'Space Grotesk', sans-serif;
-  --body: 'Inter', sans-serif;
-  --code: 'JetBrains Mono', monospace;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--body);
-  min-height: 100vh;
-  font-size: 14px;
-  overflow-x: hidden;
-}
-
+/* ---- nav ---- */
 .nav {
   position: sticky;
   top: 0;
-  height: 52px;
-  background: rgba(13, 17, 23, 0.92);
-  backdrop-filter: blur(10px);
+  height: 50px;
+  background: rgba(16, 19, 24, 0.94);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -53,23 +26,18 @@ body {
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .nav-mark {
-  width: 12px;
-  height: 12px;
-  background: var(--accent);
-  transform: rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: var(--signal);
   border-radius: 2px;
-}
-
-.nav-name {
-  font-family: var(--heading);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-  letter-spacing: 0.02em;
+  transform: rotate(45deg);
 }
 
 .nav-links {
@@ -80,153 +48,132 @@ body {
 
 .nav-link {
   font-size: 13px;
-  font-family: var(--body);
-  color: var(--muted);
+  color: var(--dim);
   cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 6px;
-  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
   transition: color 0.15s, background 0.15s;
 }
 
 .nav-link:hover { color: var(--secondary); }
+
 .nav-link.active {
   color: var(--text);
   background: var(--raised);
 }
 
-.nav-link.logout { color: var(--muted); }
 .nav-link.logout:hover {
-  color: var(--red);
-  background: rgba(224, 101, 117, 0.06);
+  color: var(--danger);
+  background: rgba(217, 83, 95, 0.06);
 }
 
+/* ---- layout ---- */
 .main {
-  max-width: 1060px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 32px 24px 48px;
+  padding: 28px 24px 48px;
 }
-
-.page-header { margin-bottom: 24px; }
 
 .page-title {
-  font-family: var(--heading);
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600;
   color: var(--text);
   letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 .page-desc {
   font-size: 13px;
-  color: var(--muted);
-  margin-top: 4px;
+  color: var(--dim);
+  margin-bottom: 20px;
 }
 
-.stats-row {
+/* ---- stats ---- */
+.stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .stat {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: var(--radius);
+  padding: 18px 20px;
 }
 
-.stat-num {
-  font-family: var(--heading);
-  font-size: 32px;
-  font-weight: 400;
+.stat-val {
+  font-size: 30px;
+  font-weight: 700;
   color: var(--text);
   font-variant-numeric: tabular-nums;
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 .stat-label {
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 12px;
+  color: var(--dim);
 }
 
-.console-wrap {
+/* ---- console ---- */
+.console {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
-.console-bar {
+.console-head {
+  padding: 10px 16px;
   border-bottom: 1px solid var(--border);
-  padding: 0 16px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.console-dot {
-  width: 7px;
-  height: 7px;
-  background: var(--green);
-  border-radius: 50%;
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .console-dot { animation: none; }
-}
-
-.console-label {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--secondary);
 }
 
 .console-body {
-  padding: 14px 16px;
-  font-family: var(--code);
+  padding: 12px 16px;
+  font-family: var(--mono);
   font-size: 12px;
-  line-height: 1.8;
+  line-height: 1.9;
   color: var(--secondary);
-  height: 200px;
+  height: 192px;
   overflow-y: auto;
-  background: #0a0e14;
+  background: #0c1018;
 }
 
-.console-body::-webkit-scrollbar { width: 4px; }
+.console-body::-webkit-scrollbar { width: 3px; }
 .console-body::-webkit-scrollbar-track { background: transparent; }
 .console-body::-webkit-scrollbar-thumb { background: var(--raised); border-radius: 2px; }
 
-.log-time { color: var(--muted); margin-right: 10px; }
-.log-info { color: var(--blue); }
-.log-ok   { color: var(--green); }
-.log-warn { color: var(--yellow); }
+.log-time { color: var(--dim); margin-right: 8px; }
+.log-info { color: var(--info); }
+.log-ok   { color: var(--ok); }
+.log-warn { color: var(--warn); }
 
-.panel {
+/* ---- panel card ---- */
+.card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
   padding: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
-.panel-title {
-  font-family: var(--heading);
+.card-title {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
+/* ---- form ---- */
 .form-row {
   display: flex;
   gap: 10px;
@@ -234,81 +181,76 @@ body {
   flex-wrap: wrap;
 }
 
-.fg { flex: 1; min-width: 160px; }
-.fg.sm { flex: 0 0 100px; }
+.fg { flex: 1; min-width: 150px; }
+.fg.sm { flex: 0 0 96px; }
 
 .fg label {
   display: block;
   font-size: 13px;
   color: var(--secondary);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
-input[type=text], input[type=number], input[type=password] {
+.input {
   width: 100%;
-  padding: 9px 12px;
+  padding: 8px 10px;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  font-family: var(--code);
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
   font-size: 13px;
   outline: none;
   transition: border-color 0.15s;
 }
 
-input[type=text]:focus,
-input[type=number]:focus {
-  border-color: rgba(212, 162, 78, 0.35);
-}
+.input:focus { border-color: var(--dim); }
+.input::placeholder { color: var(--dim); }
 
-input::placeholder { color: var(--muted); }
-
-.btn-primary {
-  padding: 9px 18px;
-  background: var(--accent);
+.btn {
+  padding: 8px 16px;
+  background: var(--action);
   border: none;
-  border-radius: 8px;
-  color: var(--bg);
-  font-family: var(--heading);
+  border-radius: var(--radius-sm);
+  color: var(--action-text);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   transition: opacity 0.15s;
-  height: 38px;
-  letter-spacing: 0.01em;
+  height: 36px;
 }
 
-.btn-primary:hover { opacity: 0.88; }
+.btn:hover { opacity: 0.88; }
 
-.panel-head {
+/* ---- table ---- */
+.card-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.search-box {
+.search {
   position: relative;
-  flex: 0 0 220px;
+  flex: 0 0 200px;
 }
 
-.search-box input {
-  padding-left: 32px;
-  font-size: 13px;
+.search input {
+  padding-left: 30px;
+  font-size: 12px;
+  font-family: var(--font);
 }
 
-.search-box svg {
+.search svg {
   position: absolute;
-  left: 10px;
+  left: 9px;
   top: 50%;
   transform: translateY(-50%);
   width: 14px;
   height: 14px;
-  stroke: var(--muted);
+  stroke: var(--dim);
   pointer-events: none;
 }
 
@@ -319,62 +261,48 @@ table { width: 100%; border-collapse: collapse; }
 thead th {
   font-size: 12px;
   font-weight: 500;
-  color: var(--muted);
+  color: var(--dim);
   text-align: left;
-  padding: 0 12px 12px;
+  padding: 0 12px 10px;
   border-bottom: 1px solid var(--border);
 }
 
-thead th:first-child { padding-left: 16px; }
+thead th:first-child { padding-left: 0; }
 
 tbody tr {
   border-bottom: 1px solid var(--border-subtle);
   transition: background 0.1s;
-  position: relative;
 }
 
 tbody tr:last-child { border-bottom: none; }
 tbody tr:hover { background: var(--raised); }
 
-tbody tr.active-row { background: var(--raised); }
-
-tbody tr.active-row::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-  border-radius: 0 1px 1px 0;
-}
-
 tbody td {
-  padding: 12px;
+  padding: 10px 12px;
   font-size: 13px;
   color: var(--secondary);
   vertical-align: middle;
 }
 
-tbody td:first-child { padding-left: 16px; }
+tbody td:first-child { padding-left: 0; }
 
-.key-token {
-  font-family: var(--code);
+.key-pill {
+  font-family: var(--mono);
   font-size: 12px;
   color: var(--text);
   background: var(--raised);
   border: 1px solid var(--border);
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .copy-btn {
   background: none;
   border: none;
-  color: var(--muted);
+  color: var(--dim);
   cursor: pointer;
   padding: 0;
   line-height: 0;
@@ -383,67 +311,59 @@ tbody td:first-child { padding-left: 16px; }
 
 .copy-btn:hover { color: var(--secondary); }
 
-.num-accent {
-  font-family: var(--heading);
-  font-size: 14px;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-}
-
-.num-muted {
-  font-family: var(--code);
-  font-size: 13px;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-
 .name-cell {
   font-weight: 500;
   color: var(--text);
 }
 
-.action-btn {
+.val { font-variant-numeric: tabular-nums; }
+.val-bright { color: var(--text); }
+
+.act-btn {
   background: none;
   border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 5px 12px;
-  border-radius: 6px;
+  color: var(--dim);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
   font-size: 12px;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s, background 0.15s;
   margin-right: 4px;
 }
 
-.action-btn:hover {
+.act-btn:hover {
   color: var(--secondary);
-  border-color: rgba(136, 149, 187, 0.2);
+  border-color: var(--dim);
 }
 
-.action-btn.del:hover {
-  color: var(--red);
-  border-color: rgba(224, 101, 117, 0.25);
-  background: rgba(224, 101, 117, 0.04);
+.act-btn.del:hover {
+  color: var(--danger);
+  border-color: rgba(217, 83, 95, 0.25);
+  background: rgba(217, 83, 95, 0.04);
 }
 
-.tab-content { display: none; }
-.tab-content.active { display: block; }
+/* ---- tabs ---- */
+.tab { display: none; }
+.tab.active { display: block; }
 
+/* ---- responsive ---- */
 @media (max-width: 680px) {
   .nav { padding: 0 16px; }
-  .main { padding: 24px 16px 40px; }
-  .stats-row { grid-template-columns: 1fr; }
+  .main { padding: 20px 16px 40px; }
+  .stats { grid-template-columns: 1fr; }
   .form-row { flex-direction: column; }
-  .btn-primary { width: 100%; }
-  .search-box { flex: 0 0 100%; }
-  .panel-head { flex-direction: column; align-items: flex-start; }
+  .btn { width: 100%; }
+  .search { flex: 0 0 100%; }
+  .card-head { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
 <body>
+
 <nav class="nav">
   <div class="nav-brand">
     <div class="nav-mark"></div>
-    <span class="nav-name">JNL Glory</span>
+    JNL Glory
   </div>
   <div class="nav-links">
     <a class="nav-link active" onclick="showTab('dashboard')">Dashboard</a>
@@ -454,65 +374,60 @@ tbody td:first-child { padding-left: 16px; }
 
 <main class="main">
 
-  <div id="dashboard" class="tab-content active">
-    <div class="page-header">
-      <div class="page-title">Overview</div>
-      <div class="page-desc">Reseller activity and node status</div>
-    </div>
+  <div id="dashboard" class="tab active">
+    <h1 class="page-title">Overview</h1>
+    <p class="page-desc">Reseller activity and node status</p>
 
-    <div class="stats-row">
+    <div class="stats">
       <div class="stat">
-        <div class="stat-num" id="stat-resellers">0</div>
+        <div class="stat-val" id="stat-resellers">0</div>
         <div class="stat-label">Resellers</div>
       </div>
       <div class="stat">
-        <div class="stat-num" id="stat-remains">0</div>
+        <div class="stat-val" id="stat-remains">0</div>
         <div class="stat-label">Total credits</div>
       </div>
       <div class="stat">
-        <div class="stat-num" id="stat-usage">0</div>
+        <div class="stat-val" id="stat-usage">0</div>
         <div class="stat-label">Total usage</div>
       </div>
     </div>
 
-    <div class="console-wrap">
-      <div class="console-bar">
-        <div class="console-dot"></div>
-        <span class="console-label">Live console</span>
+    <div class="console">
+      <div class="console-head">Console</div>
+      <div class="console-body" id="console_logs">
+        <noscript><div style="color:var(--dim)">Enable JavaScript to use the console.</div></noscript>
       </div>
-      <div class="console-body" id="console_logs"></div>
     </div>
   </div>
 
-  <div id="resellers" class="tab-content">
-    <div class="page-header">
-      <div class="page-title">Resellers</div>
-      <div class="page-desc">Manage keys and credits</div>
-    </div>
+  <div id="resellers" class="tab">
+    <h1 class="page-title">Resellers</h1>
+    <p class="page-desc">Manage keys and credits</p>
 
-    <div class="panel">
-      <div class="panel-title">New reseller</div>
+    <div class="card">
+      <div class="card-title">New reseller</div>
       <div class="form-row">
         <div class="fg">
-          <label>Name</label>
-          <input type="text" id="r_name" placeholder="e.g. Vaibhav">
+          <label for="r_name">Name</label>
+          <input class="input" type="text" id="r_name" placeholder="e.g. Vaibhav">
         </div>
         <div class="fg sm">
-          <label>Credits</label>
-          <input type="number" id="r_remains" value="3" min="1">
+          <label for="r_remains">Credits</label>
+          <input class="input" type="number" id="r_remains" value="3" min="1">
         </div>
-        <button class="btn-primary" onclick="createReseller()">Create key</button>
+        <button class="btn" type="button" onclick="createReseller()">Create key</button>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-head">
-        <div class="panel-title" style="margin-bottom:0">All resellers</div>
-        <div class="search-box">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title" style="margin-bottom:0">All resellers</div>
+        <div class="search">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
-          <input type="text" id="search_input" placeholder="Search key or name" onkeyup="filterResellers()">
+          <input class="input" type="text" id="search_input" placeholder="Search key or name" onkeyup="filterResellers()">
         </div>
       </div>
       <div class="table-wrap">
@@ -536,122 +451,123 @@ tbody td:first-child { padding-left: 16px; }
 </main>
 
 <script>
-let allResellers = [];
+var allResellers = [];
 
 function logToConsole(msg, type) {
-  const body = document.getElementById('console_logs');
-  const t = new Date().toLocaleTimeString('en-GB', {hour12:false});
-  const d = document.createElement('div');
-  const cls = type === 'success' ? 'log-ok' : type === 'warn' ? 'log-warn' : 'log-info';
+  var body = document.getElementById('console_logs');
+  var t = new Date().toLocaleTimeString('en-GB', {hour12:false});
+  var d = document.createElement('div');
+  var cls = type === 'success' ? 'log-ok' : type === 'warn' ? 'log-warn' : 'log-info';
   d.innerHTML = '<span class="log-time">' + t + '</span><span class="' + cls + '">' + msg + '</span>';
   body.appendChild(d);
   body.scrollTop = body.scrollHeight;
 }
 
 function showTab(id) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.nav-link').forEach(function(el) { el.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
-  const idx = id === 'dashboard' ? 0 : 1;
+  var idx = id === 'dashboard' ? 0 : 1;
   document.querySelectorAll('.nav-link')[idx].classList.add('active');
 }
 
-async function fetchResellers() {
+function fetchResellers() {
   logToConsole('Loading resellers...', 'info');
-  const res = await fetch('/admin/api/resellers');
-  const data = await res.json();
-  if (data.success) {
-    allResellers = data.resellers;
-    renderTable(allResellers);
-    updateStats(allResellers);
-    logToConsole('Loaded ' + allResellers.length + ' resellers', 'success');
-  } else {
-    logToConsole('Failed to load resellers', 'warn');
-  }
+  fetch('/admin/api/resellers').then(function(res) { return res.json(); }).then(function(data) {
+    if (data.success) {
+      allResellers = data.resellers;
+      renderTable(allResellers);
+      updateStats(allResellers);
+      logToConsole('Loaded ' + allResellers.length + ' resellers', 'success');
+    } else {
+      logToConsole('Failed to load resellers', 'warn');
+    }
+  });
 }
 
 function renderTable(list) {
-  const tbody = document.querySelector('#reseller_table tbody');
+  var tbody = document.querySelector('#reseller_table tbody');
   tbody.innerHTML = '';
   if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px;font-size:13px;">No resellers yet</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--dim);padding:24px;font-size:13px">No resellers yet</td></tr>';
     return;
   }
-  list.forEach(r => {
-    const d = new Date(r.created_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
-    tbody.innerHTML += `<tr>
-      <td><span class="key-token">${r.key}
-        <button class="copy-btn" onclick="copyText('${r.key}')" title="Copy">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </span></td>
-      <td class="name-cell">${r.name}</td>
-      <td><span class="num-accent">${r.remains}</span></td>
-      <td><span class="num-muted">${r.usage || 0}</span></td>
-      <td style="font-size:12px;font-family:var(--code);color:var(--muted)">${d}</td>
-      <td>
-        <button class="action-btn" onclick="editRemains('${r.key}', ${r.remains})">Edit</button>
-        <button class="action-btn del" onclick="deleteReseller('${r.key}')">Delete</button>
-      </td>
-    </tr>`;
+  list.forEach(function(r) {
+    var d = new Date(r.created_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+    tbody.innerHTML += '<tr>'
+      + '<td><span class="key-pill">' + r.key
+      + ' <button class="copy-btn" onclick="copyText(\'' + r.key + '\')" title="Copy">'
+      + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+      + '</button></span></td>'
+      + '<td class="name-cell">' + r.name + '</td>'
+      + '<td><span class="val val-bright">' + r.remains + '</span></td>'
+      + '<td><span class="val">' + (r.usage || 0) + '</span></td>'
+      + '<td style="font-size:12px;font-family:var(--mono);color:var(--dim)">' + d + '</td>'
+      + '<td>'
+      + '<button class="act-btn" onclick="editRemains(\'' + r.key + '\',' + r.remains + ')">Edit</button>'
+      + '<button class="act-btn del" onclick="deleteReseller(\'' + r.key + '\')">Delete</button>'
+      + '</td></tr>';
   });
 }
 
 function updateStats(list) {
-  let rem = 0, use = 0;
-  list.forEach(r => { rem += r.remains; use += (r.usage || 0); });
+  var rem = 0, use = 0;
+  list.forEach(function(r) { rem += r.remains; use += (r.usage || 0); });
   document.getElementById('stat-resellers').textContent = list.length;
   document.getElementById('stat-remains').textContent = rem;
   document.getElementById('stat-usage').textContent = use;
 }
 
 function filterResellers() {
-  const q = document.getElementById('search_input').value.toLowerCase();
-  renderTable(allResellers.filter(r => r.key.toLowerCase().includes(q) || r.name.toLowerCase().includes(q)));
+  var q = document.getElementById('search_input').value.toLowerCase();
+  renderTable(allResellers.filter(function(r) {
+    return r.key.toLowerCase().indexOf(q) !== -1 || r.name.toLowerCase().indexOf(q) !== -1;
+  }));
 }
 
-async function createReseller() {
-  const name = document.getElementById('r_name').value.trim();
-  const remains = document.getElementById('r_remains').value;
+function createReseller() {
+  var name = document.getElementById('r_name').value.trim();
+  var remains = document.getElementById('r_remains').value;
   if (!name) return alert('Enter a name');
   logToConsole('Creating reseller: ' + name, 'info');
-  const res = await fetch('/admin/api/resellers', {
+  fetch('/admin/api/resellers', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({name, remains})
+    body: JSON.stringify({name: name, remains: remains})
+  }).then(function(res) { return res.json(); }).then(function(data) {
+    if (data.success) {
+      logToConsole('Created: ' + name, 'success');
+      document.getElementById('r_name').value = '';
+      fetchResellers();
+    } else {
+      logToConsole('Error: ' + data.error, 'warn');
+      alert('Error: ' + data.error);
+    }
   });
-  const data = await res.json();
-  if (data.success) {
-    logToConsole('Created: ' + name, 'success');
-    document.getElementById('r_name').value = '';
-    fetchResellers();
-  } else {
-    logToConsole('Error: ' + data.error, 'warn');
-    alert('Error: ' + data.error);
-  }
 }
 
-async function editRemains(key, cur) {
-  const val = prompt('New credits for ' + key + ':', cur);
+function editRemains(key, cur) {
+  var val = prompt('New credits for ' + key + ':', cur);
   if (val === null || val.trim() === '') return;
-  const n = parseInt(val);
+  var n = parseInt(val);
   if (isNaN(n) || n < 0) return alert('Enter a valid number');
-  const res = await fetch('/admin/api/resellers/' + key, {
+  fetch('/admin/api/resellers/' + key, {
     method: 'PATCH',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({remains: n})
+  }).then(function(res) { return res.json(); }).then(function(data) {
+    if (data.success) { logToConsole('Updated ' + key, 'success'); fetchResellers(); }
+    else { logToConsole('Failed to update ' + key, 'warn'); }
   });
-  const data = await res.json();
-  if (data.success) { logToConsole('Updated ' + key, 'success'); fetchResellers(); }
-  else { logToConsole('Failed to update ' + key, 'warn'); }
 }
 
-async function deleteReseller(key) {
+function deleteReseller(key) {
   if (!confirm('Delete ' + key + '?')) return;
   logToConsole('Deleting ' + key, 'warn');
-  await fetch('/admin/api/resellers/' + key, {method:'DELETE'});
-  logToConsole('Deleted ' + key, 'success');
-  fetchResellers();
+  fetch('/admin/api/resellers/' + key, {method:'DELETE'}).then(function() {
+    logToConsole('Deleted ' + key, 'success');
+    fetchResellers();
+  });
 }
 
 function copyText(t) {
