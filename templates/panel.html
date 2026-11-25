@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JNL Glory</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="{{ url_for('static', filename='tokens.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet">
+<style>
+/* ---- nav ---- */
+.nav {
+  position: sticky;
+  top: 0;
+  height: 50px;
+  background: rgba(16, 19, 24, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.nav-mark {
+  width: 10px;
+  height: 10px;
+  background: var(--signal);
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-link {
+  font-size: 13px;
+  color: var(--dim);
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-link:hover { color: var(--secondary); }
+
+.nav-link.active {
+  color: var(--text);
+  background: var(--raised);
+}
+
+.nav-link.logout:hover {
+  color: var(--danger);
+  background: rgba(217, 83, 95, 0.06);
+}
+
+/* ---- layout ---- */
+.main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+.page-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.page-desc {
+  font-size: 13px;
+  color: var(--dim);
+  margin-bottom: 20px;
+}
+
+/* ---- stats ---- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.stat-val {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 6px;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--dim);
+}
+
+/* ---- console ---- */
+.console {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.console-head {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+.console-body {
+  padding: 12px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--secondary);
+  height: 192px;
+  overflow-y: auto;
+  background: #0c1018;
+}
+
+.console-body::-webkit-scrollbar { width: 3px; }
+.console-body::-webkit-scrollbar-track { background: transparent; }
+.console-body::-webkit-scrollbar-thumb { background: var(--raised); border-radius: 2px; }
+
+.log-time { color: var(--dim); margin-right: 8px; }
+.log-info { color: var(--info); }
+.log-ok   { color: var(--ok); }
+.log-warn { color: var(--warn); }
+
+/* ---- panel card ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+/* ---- form ---- */
+.form-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.fg { flex: 1; min-width: 150px; }
+.fg.sm { flex: 0 0 96px; }
+
+.fg label {
+  display: block;
+  font-size: 13px;
+  color: var(--secondary);
+  margin-bottom: 5px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input:focus { border-color: var(--dim); }
+.input::placeholder { color: var(--dim); }
+
+.btn {
+  padding: 8px 16px;
+  background: var(--action);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--action-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+  height: 36px;
+}
+
+.btn:hover { opacity: 0.88; }
+
+/* ---- table ---- */
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search {
+  position: relative;
+  flex: 0 0 200px;
+}
+
+.search input {
+  padding-left: 30px;
+  font-size: 12px;
+  font-family: var(--font);
+}
+
+.search svg {
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  stroke: var(--dim);
+  pointer-events: none;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; }
+
+thead th {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dim);
+  text-align: left;
+  padding: 0 12px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+thead th:first-child { padding-left: 0; }
+
+tbody tr {
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background 0.1s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--raised); }
+
+tbody td {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--secondary);
+  vertical-align: middle;
+}
+
+tbody td:first-child { padding-left: 0; }
+
+.key-pill {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  background: var(--raised);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: var(--dim);
+  cursor: pointer;
+  padding: 0;
+  line-height: 0;
+  transition: color 0.15s;
+}
+
+.copy-btn:hover { color: var(--secondary); }
+
+.name-cell {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.val { font-variant-numeric: tabular-nums; }
+.val-bright { color: var(--text); }
+
+.act-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--dim);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  margin-right: 4px;
+}
+
+.act-btn:hover {
+  color: var(--secondary);
+  border-color: var(--dim);
+}
+
+.act-btn.del:hover {
+  color: var(--danger);
+  border-color: rgba(217, 83, 95, 0.25);
+  background: rgba(217, 83, 95, 0.04);
+}
+
+/* ---- tabs ---- */
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* ---- responsive ---- */
+@media (max-width: 680px) {
+  .nav { padding: 0 16px; }
+  .main { padding: 20px 16px 40px; }
+  .stats { grid-template-columns: 1fr; }
+  .form-row { flex-direction: column; }
+  .btn { width: 100%; }
+  .search { flex: 0 0 100%; }
+  .card-head { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-mark"></div>
+    JNL Glory
+  </div>
+  <div class="nav-links">
+    <a class="nav-link active" onclick="showTab('dashboard')">Dashboard</a>
+    <a class="nav-link" onclick="showTab('resellers')">Resellers</a>
+    <a href="/admin/logout" class="nav-link logout">Logout</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div id="dashboard" class="tab active">
+    <h1 class="page-title">Overview</h1>
+    <p class="page-desc">Reseller activity and node status</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-val" id="stat-resellers">0</div>
+        <div class="stat-label">Resellers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="stat-remains">0</div>
+        <div class="stat-label">Total credits</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="stat-usage">0</div>
+        <div class="stat-label">Total usage</div>
+      </div>
+    </div>
+
+    <div class="console">
+      <div class="console-head">Console</div>
+      <div class="console-body" id="console_logs">
+        <noscript><div style="color:var(--dim)">Enable JavaScript to use the console.</div></noscript>
+      </div>
+    </div>
+  </div>
+
+  <div id="resellers" class="tab">
+    <h1 class="page-title">Resellers</h1>
+    <p class="page-desc">Manage keys and credits</p>
+
+    <div class="card">
+      <div class="card-title">New reseller</div>
+      <div class="form-row">
+        <div class="fg">
+          <label for="r_name">Name</label>
+          <input class="input" type="text" id="r_name" placeholder="e.g. Vaibhav">
+        </div>
+        <div class="fg sm">
+          <label for="r_remains">Credits</label>
+          <input class="input" type="number" id="r_remains" value="3" min="1">
+        </div>
+        <button class="btn" type="button" onclick="createReseller()">Create key</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title" style="margin-bottom:0">All resellers</div>
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input class="input" type="text" id="search_input" placeholder="Search key or name" onkeyup="filterResellers()">
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="reseller_table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Name</th>
+              <th>Credits</th>
+              <th>Usage</th>
+              <th>Created</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+var allResellers = [];
+
+function logToConsole(msg, type) {
+  var body = document.getElementById('console_logs');
+  var t = new Date().toLocaleTimeString('en-GB', {hour12:false});
+  var d = document.createElement('div');
+  var cls = type === 'success' ? 'log-ok' : type === 'warn' ? 'log-warn' : 'log-info';
+  d.innerHTML = '<span class="log-time">' + t + '</span><span class="' + cls + '">' + msg + '</span>';
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+}
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.nav-link').forEach(function(el) { el.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  var idx = id === 'dashboard' ? 0 : 1;
+  document.querySelectorAll('.nav-link')[idx].classList.add('active');
+}
+
+function fetchResellers() {
+  logToConsole('Loading resellers...', 'info');
+  fetch('/admin/api/resellers').then(function(res) { return res.json(); }).then(function(data) {
+    if (data.success) {
+      allResellers = data.resellers;
+      renderTable(allResellers);
+      updateStats(allResellers);
+      logToConsole('Loaded ' + allResellers.length + ' resellers', 'success');
+    } else {
+      logToConsole('Failed to load resellers', 'warn');
+    }
+  });
+}
+
+function renderTable(list) {
+  var tbody = document.querySelector('#reseller_table tbody');
+  tbody.innerHTML = '';
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--dim);padding:24px;font-size:13px">No resellers yet</td></tr>';
+    return;
+  }
+  list.forEach(function(r) {
+    var d = new Date(r.created_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+    tbody.innerHTML += '<tr>'
+      + '<td><span class="key-pill">' + r.key
+      + ' <button class="copy-btn" onclick="copyText(\'' + r.key + '\')" title="Copy">'
+      + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+      + '</button></span></td>'
+      + '<td class="name-cell">' + r.name + '</td>'
+      + '<td><span class="val val-bright">' + r.remains + '</span></td>'
+      + '<td><span class="val">' + (r.usage || 0) + '</span></td>'
+      + '<td style="font-size:12px;font-family:var(--mono);color:var(--dim)">' + d + '</td>'
+      + '<td>'
+      + '<button class="act-btn" onclick="editRemains(\'' + r.key + '\',' + r.remains + ')">Edit</button>'
+      + '<button class="act-btn del" onclick="deleteReseller(\'' + r.key + '\')">Delete</button>'
+      + '</td></tr>';
+  });
+}
+
+function updateStats(list) {
+  var rem = 0, use = 0;
+  list.forEach(function(r) { rem += r.remains; use += (r.usage || 0); });
+  document.getElementById('stat-resellers').textContent = list.length;
+  document.getElementById('stat-remains').textContent = rem;
+  document.getElementById('stat-usage').textContent = use;
+}
+
+function filterResellers() {
+  var q = document.getElementById('search_input').value.toLowerCase();
+  renderTable(allResellers.filter(function(r) {
+    return r.key.toLowerCase().indexOf(q) !== -1 || r.name.toLowerCase().indexOf(q) !== -1;
+  }));
+}
+
+function createReseller() {
+  var name = document.getElementById('r_name').value.trim();
+  var remains = document.getElementById('r_remains').value;
+  if (!name) return alert('Enter a name');
+  logToConsole('Creating reseller: ' + name, 'info');
+  fetch('/admin/api/resellers', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({name: name, remains: remains})
+  }).then(function(res) { return res.json(); }).then(function(data) {
+    if (data.success) {
+      logToConsole('Created: ' + name, 'success');
+      document.getElementById('r_name').value = '';
+      fetchResellers();
+    } else {
+      logToConsole('Error: ' + data.error, 'warn');
+      alert('Error: ' + data.error);
+    }
+  });
+}
+
+function editRemains(key, cur) {
+  var val = prompt('New credits for ' + key + ':', cur);
+  if (val === null || val.trim() === '') return;
+  var n = parseInt(val);
+  if (isNaN(n) || n < 0) return alert('Enter a valid number');
+  fetch('/admin/api/resellers/' + key, {
+    method: 'PATCH',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({remains: n})
+  }).then(function(res) { return res.json(); }).then(function(data) {
+    if (data.success) { logToConsole('Updated ' + key, 'success'); fetchResellers(); }
+    else { logToConsole('Failed to update ' + key, 'warn'); }
+  });
+}
+
+function deleteReseller(key) {
+  if (!confirm('Delete ' + key + '?')) return;
+  logToConsole('Deleting ' + key, 'warn');
+  fetch('/admin/api/resellers/' + key, {method:'DELETE'}).then(function() {
+    logToConsole('Deleted ' + key, 'success');
+    fetchResellers();
+  });
+}
+
+function copyText(t) {
+  navigator.clipboard.writeText(t);
+  logToConsole('Copied ' + t, 'info');
+}
+
+logToConsole('JNL Glory ready', 'info');
+fetchResellers();
+</script>
+</body>
+</html>

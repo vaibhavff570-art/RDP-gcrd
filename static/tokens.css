@@ -1,0 +1,25 @@
+/* hallmark: v2.0.0 | deal: manual, no-scripts | theme: none (custom-utilitarian) | genre: modern-minimal | shape: app-screen | signature: live-console | font: Plus Jakarta Sans + JetBrains Mono */
+/* critique: monochrome tool panel; white action on dark field, one family, data colours carry the chrome; signal-gold for brand only */
+
+:root {
+  --bg: #101318;
+  --surface: #181d26;
+  --raised: #222935;
+  --text: #e4e6eb;
+  --secondary: #878d9b;
+  --dim: #4a5060;
+  --signal: #c9a650;
+  --action: #e4e6eb;
+  --action-text: #101318;
+  --info: #5b9af5;
+  --ok: #4abe80;
+  --warn: #dba24a;
+  --danger: #d9535f;
+  --border: rgba(130, 140, 160, 0.1);
+  --border-subtle: rgba(130, 140, 160, 0.06);
+  --radius: 8px;
+  --radius-sm: 5px;
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--secondary);
+}
