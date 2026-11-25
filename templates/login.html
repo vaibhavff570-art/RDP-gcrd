@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JNL Glory</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0d1117;
+  --surface: #151b28;
+  --border: rgba(136, 149, 187, 0.1);
+  --border-focus: rgba(212, 162, 78, 0.35);
+  --text: #e1e3ea;
+  --secondary: #7c839a;
+  --muted: #4c526a;
+  --accent: #d4a24e;
+  --err: #e06575;
+  --heading: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+  --code: 'JetBrains Mono', monospace;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  font-family: var(--body);
+  color: var(--text);
+}
+
+.wrap {
+  width: 92%;
+  max-width: 340px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.brand-mark {
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-family: var(--heading);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--secondary);
+  letter-spacing: 0.03em;
+}
+
+h1 {
+  font-family: var(--heading);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--secondary);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px;
+}
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  color: var(--secondary);
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--code);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: var(--border-focus);
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+.input-group {
+  margin-bottom: 22px;
+}
+
+button[type=submit] {
+  width: 100%;
+  padding: 11px;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: var(--bg);
+  font-family: var(--heading);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.01em;
+}
+
+button[type=submit]:hover {
+  opacity: 0.88;
+}
+
+.err {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--err);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.err::before {
+  content: '!';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--err);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <span class="brand-name">JNL Glory</span>
+    </div>
+    <h1>Welcome back</h1>
+    <p class="sub">Enter your product key to continue</p>
+    <form class="card" method="POST">
+      <div class="input-group">
+        <label class="field-label">Product key</label>
+        <input type="password" name="admin_key" placeholder="Enter your key" required autofocus autocomplete="off">
+      </div>
+      <button type="submit">Continue</button>
+      {% if error %}<div class="err">{{ error }}</div>{% endif %}
+    </form>
+  </div>
+</body>
+</html>
